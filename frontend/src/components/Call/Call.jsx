@@ -38,7 +38,7 @@ export default function Call() {
         <button className="rounded-full bg-gray-700 p-3 text-white transition hover:bg-gray-600">
           📽️
         </button>
-        <button className="rounded-full bg-red-600 p-3 text-white transition hover:bg-red-500">
+        <button className="rounded-full bg-red-600 p-3 transition hover:bg-red-500">
           📞
         </button>
       </div>
