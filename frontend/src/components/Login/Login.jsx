@@ -31,6 +31,7 @@ export default function Login() {
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("email", formData.email);
 
       window.dispatchEvent(new Event("storage"));
 
