@@ -11,51 +11,19 @@ export default function Call() {
   const [micOn, setMicOn] = useState(true);
   const [camOn, setCamOn] = useState(true);
 
-  // const toggleMic = () => {
-  //   if (localStreamRef.current) {
-  //     const audioTrack = localStreamRef.current
-  //       .getTracks()
-  //       .find((track) => track.kind === "audio");
-  //     if (audioTrack) {
-  //       audioTrack.enabled = !audioTrack.enabled;
-  //       setMicOn(audioTrack.enabled);
-  //     }
-  //   }
-  // };
-
-  // const toggleCam = () => {
-  //   if (localStreamRef.current) {
-  //     videoTrack = localStreamRef.current
-  //       .getTracks()
-  //       .find(track.kind === "video");
-  //     if (videoTrack) {
-  //       videoTrack.enabled = !videoTrack.enabled;
-  //       setCamOn(videoTrack.enabled);
-  //     }
-  //   }
-  // };
-
   const toggleMic = () => {
-    if (localStreamRef.current) {
-      const audioTrack = localStreamRef.current
-        .getTracks()
-        .find((track) => track.kind === "audio");
-      if (audioTrack) {
-        audioTrack.enabled = !audioTrack.enabled;
-        setMicOn(audioTrack.enabled);
-      }
+    const audioTracks = localStreamRef.current?.getAudioTracks();
+    if (audioTracks && audioTracks.length > 0) {
+      audioTracks[0].enabled = !audioTracks[0].enabled;
+      setMicOn(audioTracks[0].enabled);
     }
   };
 
   const toggleCam = () => {
-    if (localStreamRef.current) {
-      const videoTrack = localStreamRef.current
-        .getTracks()
-        .find((track) => track.kind === "video");
-      if (videoTrack) {
-        videoTrack.enabled = !videoTrack.enabled;
-        setCamOn(videoTrack.enabled);
-      }
+    const videoTracks = localStreamRef.current?.getVideoTracks();
+    if (videoTracks && videoTracks.length > 0) {
+      videoTracks[0].enabled = !videoTracks[0].enabled;
+      setCamOn(videoTracks[0].enabled);
     }
   };
 
