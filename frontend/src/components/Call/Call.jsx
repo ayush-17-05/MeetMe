@@ -8,6 +8,56 @@ export default function Call() {
   const localStreamRef = useRef(null);
   const remoteStreamRef = useRef(new MediaStream());
   const [remoteSocketId, setRemoteSocketId] = useState(null);
+  const [micOn, setMicOn] = useState(true);
+  const [camOn, setCamOn] = useState(true);
+
+  // const toggleMic = () => {
+  //   if (localStreamRef.current) {
+  //     const audioTrack = localStreamRef.current
+  //       .getTracks()
+  //       .find((track) => track.kind === "audio");
+  //     if (audioTrack) {
+  //       audioTrack.enabled = !audioTrack.enabled;
+  //       setMicOn(audioTrack.enabled);
+  //     }
+  //   }
+  // };
+
+  // const toggleCam = () => {
+  //   if (localStreamRef.current) {
+  //     videoTrack = localStreamRef.current
+  //       .getTracks()
+  //       .find(track.kind === "video");
+  //     if (videoTrack) {
+  //       videoTrack.enabled = !videoTrack.enabled;
+  //       setCamOn(videoTrack.enabled);
+  //     }
+  //   }
+  // };
+
+  const toggleMic = () => {
+    if (localStreamRef.current) {
+      const audioTrack = localStreamRef.current
+        .getTracks()
+        .find((track) => track.kind === "audio");
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        setMicOn(audioTrack.enabled);
+      }
+    }
+  };
+
+  const toggleCam = () => {
+    if (localStreamRef.current) {
+      const videoTrack = localStreamRef.current
+        .getTracks()
+        .find((track) => track.kind === "video");
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        setCamOn(videoTrack.enabled);
+      }
+    }
+  };
 
   const socket = useSocket();
 
@@ -62,10 +112,6 @@ export default function Call() {
         if (localVideoRef.current) {
           localVideoRef.current.srcObject = stream;
         }
-
-        // stream.getTracks().forEach((track) => {
-        //   peer.peer.addTrack(track, stream);
-        // });
       }
 
       const answer = await peer.getAnswer(offer);
@@ -168,24 +214,19 @@ export default function Call() {
 
       {/* Controls */}
       <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 space-x-4">
-        <button className="rounded-full bg-gray-700 p-3 text-white transition hover:bg-gray-600">
-          🎙️
-        </button>
-        <button className="rounded-full bg-gray-700 p-3 text-white transition hover:bg-gray-600">
-          📽️
+        <button
+          onClick={toggleMic}
+          className="rounded-full bg-gray-700 p-3 text-white transition hover:bg-gray-600"
+        >
+          {micOn ? "🎙️" : "🔇"}
         </button>
         <button
-          className="rounded-full bg-red-600 p-3 transition hover:bg-red-500"
-          onClick={() => {
-            if (localStreamRef.current) {
-              localStreamRef.current
-                .getTracks()
-                .forEach((track) => track.stop());
-              localStreamRef.current = null;
-              console.log("🔴 Camera/Mic stopped");
-            }
-          }}
+          onClick={toggleCam}
+          className="rounded-full bg-gray-700 p-3 text-white transition hover:bg-gray-600"
         >
+          {camOn ? "📷" : "🚫"}
+        </button>
+        <button className="rounded-full bg-red-600 p-3 transition hover:bg-red-500">
           📞
         </button>
       </div>
